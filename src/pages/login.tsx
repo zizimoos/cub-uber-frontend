@@ -1,7 +1,14 @@
 import { gql, useMutation } from "@apollo/client";
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { authTokenVar, isLoggedInVar } from "../apollo";
+import { Button } from "../components/button";
 import { FormError } from "../components/form-error";
+import { LOCALSTORAGE_TOKEN } from "../constant";
+import nuberLogo from "../images/cubUberLogo.svg";
+
 import {
   loginMutation,
   loginMutationVariables,
@@ -22,15 +29,24 @@ interface ILoginForm {
   resultError?: string;
 }
 export const Login = () => {
-  const { register, getValues, errors, handleSubmit } = useForm<ILoginForm>();
+  const {
+    register,
+    getValues,
+    errors,
+    handleSubmit,
+    formState,
+  } = useForm<ILoginForm>({ mode: "onChange" });
 
   const onCompleted = (data: loginMutation) => {
     if (data.login.ok) {
       const {
         login: { ok, token },
       } = data;
-      if (ok) {
+      if (ok && token) {
         console.log(token);
+        localStorage.setItem(LOCALSTORAGE_TOKEN, token);
+        authTokenVar(token);
+        isLoggedInVar(true);
       }
     }
   };
@@ -56,20 +72,35 @@ export const Login = () => {
     }
   };
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-800">
-      <div className="bg-white w-full max-w-lg pt-10 pb-5 rounded-md text-center">
-        <h3 className="text-3xl text-gray-800">Login</h3>
-        <form onSubmit={handleSubmit(onSumit)} className="grid gap-3 mt-5 px-5">
+    <div className="h-screen flex items-center flex-col mt-10 lg:mt-28">
+      <Helmet>
+        <title>Login | Cub Uber Eat</title>
+      </Helmet>
+      <div className="w-full max-w-screen-sm flex flex-col items-center px-5">
+        <img src={nuberLogo} className="w-35  mb-5" alt={"logo"}></img>
+        <h4 className="w-full text-left text-2xl font-medium mb-4">
+          Welcom back
+        </h4>
+        <form
+          onSubmit={handleSubmit(onSumit)}
+          className="w-full grid gap-3 mt-5 mb-3"
+        >
           <input
-            ref={register({ required: "Email is required" })}
+            ref={register({
+              required: "Email is required",
+              pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            })}
             required
             name="email"
             type="email"
             placeholder="email"
-            className="input mb-3"
+            className="p-1 px-5 border-2 text-lg font-light border-gray-200 focus:outline-none focus:border-gray-500"
           ></input>
           {errors.email?.message && (
             <FormError errorMessage={errors.email?.message}></FormError>
+          )}
+          {errors.email?.type === "pattern" && (
+            <FormError errorMessage={"Please enter a vaild email"}></FormError>
           )}
           <input
             ref={register({ required: "Password is required", minLength: 10 })}
@@ -87,13 +118,26 @@ export const Login = () => {
               errorMessage={"Password must be more than 10 chars."}
             ></FormError>
           )}
-          <button className="btn mt-3">{loading ? "loading" : "LogIn"}</button>
+          <Button
+            canClick={formState.isValid}
+            loading={loading}
+            actionText={"Log In"}
+          ></Button>
           {loginMutationResult?.login.error && (
             <FormError
               errorMessage={loginMutationResult.login.error}
             ></FormError>
           )}
         </form>
+        <div>
+          New to cubUber?{" "}
+          <Link
+            to="/create-account"
+            className=" text-green-500 hover:underline"
+          >
+            Create an account
+          </Link>{" "}
+        </div>
       </div>
     </div>
   );
