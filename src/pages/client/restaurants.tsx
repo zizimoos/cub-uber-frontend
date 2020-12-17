@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Restaurant } from "../../components/restaurant";
 import {
   restaurantsPageQuery,
@@ -51,11 +52,12 @@ export const Restaurants = () => {
   });
   const onNextPageClick = () => setPage((current) => current + 1);
   const onPrevPageClick = () => setPage((current) => current - 1);
+  const { register } = useForm();
   return (
     <div>
       <form className="bg-gray-800 w-full py-40 flex items-center justify-center">
         <input
-          className="input rounded-md border-0 w-3/12 focus:ring-gray-800"
+          className="input rounded-md border-0 w-3/4 md:w-3/12 focus:ring-gray-800"
           type="Search"
           placeholder="Search Restaurants..."
         ></input>
@@ -76,7 +78,7 @@ export const Restaurants = () => {
               </div>
             ))}
           </div>
-          <div className="grid grid-cols-3 gap-x-5 gap-y-10 mt-10">
+          <div className="grid md:grid-cols-3 gap-x-5 gap-y-10 mt-10">
             {data?.restaurants?.results?.map((restaurant) => (
               <Restaurant
                 id={restaurant.id + ""}
