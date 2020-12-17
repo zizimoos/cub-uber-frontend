@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
-import React from "react";
+import React, { useState } from "react";
+import { Restaurant } from "../../components/restaurant";
 import {
   restaurantsPageQuery,
   restaurantsPageQueryVariables,
@@ -37,17 +38,19 @@ const RESTAURANTS_QUERY = gql`
 `;
 
 export const Restaurants = () => {
-  const { data, loading, error } = useQuery<
+  const [page, setPage] = useState(1);
+  const { data, loading } = useQuery<
     restaurantsPageQuery,
     restaurantsPageQueryVariables
   >(RESTAURANTS_QUERY, {
     variables: {
       input: {
-        page: 1,
+        page,
       },
     },
   });
-  console.log(data);
+  const onNextPageClick = () => setPage((current) => current + 1);
+  const onPrevPageClick = () => setPage((current) => current - 1);
   return (
     <div>
       <form className="bg-gray-800 w-full py-40 flex items-center justify-center">
@@ -58,7 +61,7 @@ export const Restaurants = () => {
         ></input>
       </form>
       {!loading && (
-        <div className="max-w-screen-2xl mx-auto mt-8">
+        <div className="max-w-screen-2xl pb-20  mx-auto mt-8">
           <div className="flex justify-around  max-w-screen-sm mx-auto">
             {data?.allCategories.categories?.map((category, index) => (
               <div className="flex flex-col justify-center items-center group">
@@ -75,17 +78,38 @@ export const Restaurants = () => {
           </div>
           <div className="grid grid-cols-3 gap-x-5 gap-y-10 mt-10">
             {data?.restaurants?.results?.map((restaurant) => (
-              <div>
-                <div
-                  className="bg-yellow-600 py-28 bg-cover mb-3"
-                  style={{ backgroundImage: `url(${restaurant?.coverImg})` }}
-                ></div>
-                <h3 className="text-xl font-medium">{restaurant.name}</h3>
-                <span className="text-sm font-extralight">
-                  {restaurant?.address}
-                </span>
-              </div>
+              <Restaurant
+                id={restaurant.id + ""}
+                coverImg={restaurant.coverImg}
+                name={restaurant.name}
+                address={restaurant.address}
+              ></Restaurant>
             ))}
+          </div>
+          <div className="grid grid-cols-3 text-center max-w-sm items-center mx-auto mt-10">
+            {page > 1 ? (
+              <button
+                className=" focus:outline-none font-medium text-2xl"
+                onClick={onPrevPageClick}
+              >
+                &larr;
+              </button>
+            ) : (
+              <div></div>
+            )}
+            <span className="mx-5">
+              page {page} of {data?.restaurants.totalPages}
+            </span>
+            {page !== data?.restaurants.totalPages ? (
+              <button
+                className=" focus:outline-none font-medium text-2xl"
+                onClick={onNextPageClick}
+              >
+                &rarr;
+              </button>
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
       )}
