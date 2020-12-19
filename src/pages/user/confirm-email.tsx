@@ -48,7 +48,7 @@ export const ConfirmEmail = () => {
   );
   useEffect(() => {
     const [_, code] = window.location.href.split("code=");
-    console.log("code :", code);
+    console.log(_);
     verifyEmail({
       variables: {
         input: {
@@ -56,6 +56,7 @@ export const ConfirmEmail = () => {
         },
       },
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="mt-52 flex flex-col items-center justify-center">
