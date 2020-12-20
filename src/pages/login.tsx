@@ -14,7 +14,7 @@ import {
   loginMutationVariables,
 } from "../__generated__/loginMutation";
 
-const LOGIN_MUTATION = gql`
+export const LOGIN_MUTATION = gql`
   mutation loginMutation($loginInput: LoginInput!) {
     login(input: $loginInput) {
       ok
@@ -38,16 +38,14 @@ export const Login = () => {
   } = useForm<ILoginForm>({ mode: "onChange" });
 
   const onCompleted = (data: loginMutation) => {
-    if (data.login.ok) {
-      const {
-        login: { ok, token },
-      } = data;
-      if (ok && token) {
-        console.log(token);
-        localStorage.setItem(LOCALSTORAGE_TOKEN, token);
-        authTokenVar(token);
-        isLoggedInVar(true);
-      }
+    const {
+      login: { ok, token },
+    } = data;
+    console.log(data);
+    if (ok && token) {
+      localStorage.setItem(LOCALSTORAGE_TOKEN, token);
+      authTokenVar(token);
+      isLoggedInVar(true);
     }
   };
 
@@ -113,11 +111,7 @@ export const Login = () => {
           {errors.password?.message && (
             <FormError errorMessage={errors.password?.message}></FormError>
           )}
-          {errors.password?.type === "minLength" && (
-            <FormError
-              errorMessage={"Password must be more than 10 chars."}
-            ></FormError>
-          )}
+
           <Button
             canClick={formState.isValid}
             loading={loading}
