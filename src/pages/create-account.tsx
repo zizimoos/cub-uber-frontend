@@ -101,7 +101,7 @@ export const CreateAccount = () => {
             <FormError errorMessage={"Please enter a vaild email"}></FormError>
           )}
           <input
-            ref={register({ required: "Password is required", minLength: 10 })}
+            ref={register({ required: "Password is required", minLength: 3 })}
             required
             name="password"
             type="password"
@@ -110,11 +110,6 @@ export const CreateAccount = () => {
           ></input>
           {errors.password?.message && (
             <FormError errorMessage={errors.password?.message}></FormError>
-          )}
-          {errors.password?.type === "minLength" && (
-            <FormError
-              errorMessage={"Password must be more than 10 chars."}
-            ></FormError>
           )}
           <select
             name="role"
