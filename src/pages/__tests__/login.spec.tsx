@@ -63,7 +63,7 @@ describe("<Login />", () => {
     const submitBtn = getByRole("button");
     const formData = {
       email: "real@test.com",
-      password: "123",
+      password: "1234567890",
     };
     const mockedMutationResponse = jest.fn().mockResolvedValue({
       data: {
