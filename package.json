@@ -17,6 +17,7 @@
     "@types/react-router-dom": "^5.1.6",
     "apollo": "^2.31.2",
     "autoprefixer": "^10.1.0",
+    "cypress": "^6.2.0",
     "graphql": "^15.4.0",
     "mock-apollo-client": "^1.0.0",
     "postcss": "^8.2.1",
