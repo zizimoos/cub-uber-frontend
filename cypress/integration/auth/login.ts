@@ -17,13 +17,15 @@ describe("Log In", () => {
     user.findByRole("alert").should("have.text", "Password is required");
   });
   it("can fill out the form and login", () => {
-    user.visit("/");
-    user.findByPlaceholderText(/email/i).type("blackpinkrisa@risa.com");
-    user.findByPlaceholderText(/password/i).type("1234567890");
-    user
-      .findByRole("button")
-      .should("not.have.class", "pointer-events-none")
-      .click();
-    user.window().its("localStorage.cubUber-token").should("be.a", "string");
+    // user.visit("/");
+    // user.findByPlaceholderText(/email/i).type("blackpinkrisa@risa.com");
+    // user.findByPlaceholderText(/password/i).type("1234567890");
+    // user
+    //   .findByRole("button")
+    //   .should("not.have.class", "pointer-events-none")
+    //   .click();
+    // user.window().its("localStorage.cubUber-token").should("be.a", "string");
+    // @ts-ignore
+    user.login("blackpink@blackrisa.com", "12345");
   });
 });

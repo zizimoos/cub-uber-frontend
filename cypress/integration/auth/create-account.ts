@@ -20,13 +20,7 @@ describe("Create Account", () => {
       if (operationName && operationName === "createAccountMutation") {
         req.reply((res) => {
           res.send({
-            data: {
-              createAccount: {
-                ok: true,
-                error: null,
-                __typename: "CreateAccountOutput",
-              },
-            },
+            fixture: "auth/create-account.json",
           });
         });
       }
@@ -36,10 +30,12 @@ describe("Create Account", () => {
     user.findByPlaceholderText(/password/i).type("12345");
     user.findByRole("button").click();
     user.wait(1000);
-    user.title().should("eq", "Login | Cub Uber Eat");
-    user.findByPlaceholderText(/email/i).type("blackpink@blackrisa.com");
-    user.findByPlaceholderText(/password/i).type("12345");
-    user.findByRole("button").click();
-    user.window().its("localStorage.cubUber-token").should("be.a", "string");
+    // user.title().should("eq", "Login | Cub Uber Eat");
+    // user.findByPlaceholderText(/email/i).type("blackpink@blackrisa.com");
+    // user.findByPlaceholderText(/password/i).type("12345");
+    // user.findByRole("button").click();
+    // user.window().its("localStorage.cubUber-token").should("be.a", "string");
+    // @ts-ignore
+    user.login("blackpink@blackrisa.com", "12345");
   });
 });
