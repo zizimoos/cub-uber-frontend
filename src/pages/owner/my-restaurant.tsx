@@ -8,7 +8,6 @@ import {
   VictoryLabel,
   VictoryLine,
   VictoryTheme,
-  VictoryTooltip,
   VictoryVoronoiContainer,
 } from "victory";
 import { Link, useParams } from "react-router-dom";

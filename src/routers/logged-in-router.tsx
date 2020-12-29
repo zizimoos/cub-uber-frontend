@@ -18,7 +18,7 @@ const clientRoutes = [
   { path: "/", component: <Restaurants /> },
   { path: "/search", component: <Search /> },
   { path: "/category/:slug", component: <Category /> },
-  { path: "/restaurant/:id", component: <Restaurant /> },
+  { path: "/restaurants/:id", component: <Restaurant /> },
 ];
 
 const commentRoutes = [

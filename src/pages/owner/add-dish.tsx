@@ -58,6 +58,7 @@ export const AddDish = () => {
   } = useForm<IForm>({
     mode: "onChange",
   });
+
   const onSubmit = () => {
     const { name, price, description, ...rest } = getValues();
     const optionObjects = optionsNumber.map((theId) => ({
@@ -80,14 +81,17 @@ export const AddDish = () => {
   };
 
   const [optionsNumber, setOptionsNumber] = useState<number[]>([]);
+
   const onAddOptionClick = () => {
     setOptionsNumber((current) => [Date.now(), ...current]);
   };
+
   const onDeleteClick = (idToDelete: number) => {
     setOptionsNumber((current) => current.filter((id) => id !== idToDelete));
     setValue(`${idToDelete}-optionName`, "");
     setValue(`${idToDelete}-optionExtra`, "");
   };
+
   return (
     <div className="container flex flex-col items-center mt-52">
       <Helmet>
