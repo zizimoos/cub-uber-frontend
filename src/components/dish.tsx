@@ -26,7 +26,7 @@ export const Dish: React.FC<IDishProps> = ({
   isSelected,
   addItemToOrder,
   removeFromOrder,
-  addOptionToItem,
+  children: dishOptions,
 }) => {
   const onClick = () => {
     if (orderStarted) {
@@ -45,10 +45,17 @@ export const Dish: React.FC<IDishProps> = ({
       }`}
     >
       <div className="mb-5">
-        <h3 className="text-lg font-medium ">
+        <h3 className="text-lg font-medium flex items-center ">
           {name}{" "}
           {orderStarted && (
-            <button onClick={onClick}> {isSelected ? "Remove" : "Add"}</button>
+            <button
+              className={`ml-3 py-1 px-3 focus:outline-none text-sm  text-white ${
+                isSelected ? "bg-red-500" : " bg-lime-600"
+              }`}
+              onClick={onClick}
+            >
+              {isSelected ? "Remove" : "Add"}
+            </button>
           )}
         </h3>
         <h4 className="font-medium">{description}</h4>
@@ -57,23 +64,7 @@ export const Dish: React.FC<IDishProps> = ({
       {isCustomer && options && options?.length !== 0 && (
         <div>
           <h5 className="mt-8 mb-3 font-medium">Dish Options :</h5>
-          {options?.map((option, index) => (
-            <span
-              onClick={() =>
-                addOptionToItem
-                  ? addOptionToItem(id, {
-                      name: option.name,
-                      extra: option.extra,
-                    })
-                  : null
-              }
-              className="flex border items-center"
-              key={index}
-            >
-              <h6 className="mr-2">{option.name}</h6>
-              <h6 className="text-sm opacity-75">(${option.extra})</h6>
-            </span>
-          ))}
+          <div className="grid gap-2  justify-start">{dishOptions}</div>
         </div>
       )}
     </div>
