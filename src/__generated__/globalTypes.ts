@@ -69,6 +69,11 @@ export interface DishOptionInputType {
   extra?: number | null;
 }
 
+export interface EditOrderInput {
+  id: number;
+  status: OrderStatus;
+}
+
 export interface EditProfileInput {
   email?: string | null;
   password?: string | null;
@@ -93,6 +98,10 @@ export interface OrderItemOptionInputType {
   extra?: number | null;
 }
 
+export interface OrderUpdateInput {
+  id: number;
+}
+
 export interface RestaurantInput {
   restaurantId: number;
 }
@@ -104,6 +113,10 @@ export interface RestaurantsInput {
 export interface SearchRestaurantInput {
   page?: number | null;
   query: string;
+}
+
+export interface TakeOrderInput {
+  id: number;
 }
 
 export interface VerifyEmailInput {
