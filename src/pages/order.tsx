@@ -137,11 +137,12 @@ export const Order = () => {
               {data?.getOrder.order?.driver?.email || "Not yet."}
             </span>
           </div>
-          {userData?.me.role === "Client" && (
+          {userData?.me.role === UserRole.Client && (
             <span className=" text-center mt-5 mb-3  text-2xl text-lime-600">
               Status: {data?.getOrder.order?.status}
             </span>
           )}
+
           {userData?.me.role === UserRole.Owner && (
             <>
               {data?.getOrder.order?.status === OrderStatus.Pending && (
@@ -167,6 +168,33 @@ export const Order = () => {
                   </span>
                 )}
             </>
+          )}
+
+          {userData?.me.role === UserRole.Delivery && (
+            <>
+              {data?.getOrder.order?.status === OrderStatus.Cooked && (
+                <button
+                  onClick={() => onButtonClick(OrderStatus.PickedUp)}
+                  className="btn"
+                >
+                  Picked Up
+                </button>
+              )}
+              {data?.getOrder.order?.status === OrderStatus.PickedUp && (
+                <button
+                  onClick={() => onButtonClick(OrderStatus.Delivered)}
+                  className="btn"
+                >
+                  Thanks for your servie
+                </button>
+              )}
+            </>
+          )}
+
+          {data?.getOrder.order?.status === OrderStatus.Delivered && (
+            <span className=" text-center mt-5 mb-3  text-2xl text-lime-600">
+              Thank you for using Nuber Eats
+            </span>
           )}
         </div>
       </div>

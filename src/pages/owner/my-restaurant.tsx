@@ -73,6 +73,7 @@ export const MyRestaurant = () => {
   const { data: subscriptionData } = useSubscription<pendingOrders>(
     PENDING_ORDERS_SUBSCRIPTION
   );
+
   const history = useHistory();
   useEffect(() => {
     if (subscriptionData?.pendingOrders.id) {
@@ -80,7 +81,7 @@ export const MyRestaurant = () => {
     }
     // eslint-disable-next-line
   }, [subscriptionData]);
-
+  console.log(subscriptionData);
   return (
     <div>
       <Helmet>
@@ -106,6 +107,9 @@ export const MyRestaurant = () => {
         </Link>
         <Link to={``} className=" text-white bg-lime-700 py-3 px-10">
           Buy Promotion &rarr;
+        </Link>
+        <Link to={`/orders/${subscriptionData?.pendingOrders.id}`}>
+          <button>check order</button>
         </Link>
         <div className="mt-10">
           {data?.myRestaurant.restaurant?.menu.length === 0 ? (

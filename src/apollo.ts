@@ -22,7 +22,7 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: {
-      "X-JWT": authTokenVar() || "",
+      "x-jwt": authTokenVar() || "",
     },
   },
 });
