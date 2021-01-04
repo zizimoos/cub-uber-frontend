@@ -150,7 +150,7 @@ export const Dashboard = () => {
             lat: 36.58,
             lng: 125.95,
           }}
-          bootstrapURLKeys={{ key: "AIzaSyCdwSifLgJgwnlLsS2TiZecLW7LA7RIGqo" }}
+          bootstrapURLKeys={{ key: "" }}
         ></GoogleMapReact>
       </div>
       <div className=" max-w-screen-sm mx-auto bg-white relative -top-10 shadow-lg py-8 px-5">
